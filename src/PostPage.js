@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-
+// path="/post/:id"
 const PostPage = ({ posts, handleDelete }) => {
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
