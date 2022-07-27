@@ -7,18 +7,7 @@ import PostPage from "./PostPage";
 import About from "./About";
 import Missing from "./Missing";
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useHistory,
-} from "react-router-dom";
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Routes,
-//   useHistory,
-// } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -50,22 +39,46 @@ function App() {
   ]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {};
+
+  const handleDelete = (id) => {
+    const postsList = posts.filter((post) => post.id !== id);
+    setPosts(postsList);
+    navigate("/");
+  };
 
   return (
     <div className="App">
-      {/* <Router> */}
       <Header title="React JS Blog" />
       <Nav search={search} setSearch={setSearch} />
       <Routes>
-        {/* <Route path="/" element={<App />} /> */}
         <Route exact path="/" element={<Home posts={posts} />} />
-        <Route exact path="/post" element={<NewPost />} />
-        <Route path="/post/:id" element={<PostPage />} />
+        <Route
+          exact
+          path="/post"
+          element={
+            <NewPost
+              handleSubmit={handleSubmit}
+              postTitle={postTitle}
+              setPostTitle={setPostTitle}
+              postBody={postBody}
+              setPostBody={setPostBody}
+            />
+          }
+        />
+        <Route
+          path="/post/:id"
+          element={<PostPage posts={posts} handleDelete={handleDelete} />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<Missing />} />
       </Routes>
       <Footer />
-      {/* </Router> */}
     </div>
   );
 }
